@@ -17,28 +17,21 @@ export default function Page() {
     setLoadingDong(true);
   };
 
-  const storageDirButtonHandler = async (e:any) => {
-    e.preventDefault();
-    var response = await fetch("/api/vcr/save_storagedir", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        storageDir: inputValue,
-      })
-    });
-    if(response.ok) {
-      console.log('ok');
-    } else {
-      console.log('fail');
-    }
-  };
-
   // 这里是页面渲染后执行，模拟 Domready
   useEffect(() => {
     initData()
   }, [])
+
+  // 这里立即执行，执行时页面还没渲染
+  // (() => {
+  //   initData();
+  // })();
+
+  if(!loadingDone) {
+    return (
+      <div>no response</div>
+    );
+  }
 
   return (
     <>
@@ -60,7 +53,9 @@ export default function Page() {
           <Button type="default" onClick={() => {
             setInputValue(initValue);
           }}>恢复</Button>
-          <Button type="primary" onClick={storageDirButtonHandler}>提交</Button>
+          <Button type="primary" onClick={() => {
+            console.log(inputValue)
+          }}>提交</Button>
         </Space.Compact>
       </Space>
     </>
