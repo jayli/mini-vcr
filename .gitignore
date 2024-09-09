@@ -9,3 +9,4 @@ package-lock.json
 *.swp
 .sw*
 .idea/*
+src/.umi
