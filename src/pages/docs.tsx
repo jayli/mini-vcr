@@ -1,26 +1,13 @@
-import React, {useState, useEffect} from 'react';
-import {useQuery} from "umi";
 const DocsPage = () => {
-  const [value, setValue] = useState('loading....');
-
-  const query = useQuery({
-    queryKey: ["storageDirKey"],
-    queryFn: async () => {
-      var res = await fetch("/api/vcr/full_data");
-      var data = await res.json();
-      return data;
-    }
-  });
-
-  useEffect(() => {
-
-    // setValue('done')
-  },[query.isLoading]);
-
   console.log('xxxxxxxx')
   return (
     <div>
-      <p>{value}</p>
+      <p>
+        <video controls>
+          <source src="http://47.51.131.147/-wvhttp-01-/GetOneShot?image_size=1280x720&frame_count=1000000000" type="application/x-mpegURL" />
+
+        </video>
+      </p>
     </div>
   );
 };
