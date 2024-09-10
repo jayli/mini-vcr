@@ -5,7 +5,7 @@ import {useQuery} from "umi";
 export default function Page() {
 
   const [inputValue, setInputValue] = useState('loading..');
-  const [defaultInputValue, setDefaultInputValue] = useState(null);
+  const [defaultInputValue, setDefaultInputValue] = useState("");
 
   const storageDirQuery = useQuery({
     queryKey: ["storageDirKey"],
@@ -15,16 +15,19 @@ export default function Page() {
       return data;
     },
     onSuccess: (data) => {
-      console.log('success')
-      setInputValue(data.storageDir);
-      setDefaultInputValue(data.storageDir);
+      resetStorageDir(data.storageDir);
     }
   });
 
-  const storageDirButtonHandler = async (e:any) => {//{{{
+  const resetStorageDir = (val:string) => {
+    setInputValue(val);
+    setDefaultInputValue(val);
+  };
+
+  const storageDirButtonHandler = async (e:any) => {
     e.preventDefault();
 
-    var response = await fetch<any>("/api/vcr/save_storagedir", {
+    var response = await fetch("/api/vcr/save_storagedir", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -39,13 +42,13 @@ export default function Page() {
     } else {
       message.error('请求失败');
     }
-  };//}}}
+  };
 
   return (
     <>
-      <Divider style={{  borderColor: '#7cb305' }}>Mount 目录</Divider>
+      <Divider orientation="left">Mount 目录</Divider>
       <Space direction="vertical">
-        <Space size={[8, 16]} wrap>
+        <Space  wrap>
 
           <Button type="primary">PRESS ME</Button>
           <Button type="primary">PRESS ME</Button>
@@ -55,7 +58,7 @@ export default function Page() {
 
         </Space>
         <Space.Compact block>
-          <Input style={{ width: 'calc(100% - 100px)' }} type="text"
+          <Input style={{ width: 'calc(100%)' }} type="text"
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   />
@@ -64,6 +67,10 @@ export default function Page() {
           }}>恢复</Button>
           <Button type="primary" onClick={storageDirButtonHandler}>提交</Button>
         </Space.Compact>
+      </Space>
+      <Divider orientation="left">Cam 列表</Divider>
+      <Space direction="vertical">
+        oooo
       </Space>
     </>
   );
