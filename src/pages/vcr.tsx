@@ -1,25 +1,30 @@
 import React, {useState, useEffect} from 'react';
-import axios from 'axios';
-import {Button, DatePicker, Space, Divider, Input} from 'antd';
+import {Button, DatePicker, Space, Divider, Input, message} from 'antd';
 import {useQuery} from "umi";
 
 export default function Page() {
 
-  const [initValue, setInitValue] = useState(null);
-  const [inputValue, setInputValue] = useState(null);
-  const [loadingDone, setLoadingDong] = useState(false);
+  const [inputValue, setInputValue] = useState('loading..');
+  const [defaultInputValue, setDefaultInputValue] = useState(null);
 
-  const initData = async () => {
-    var res = await fetch("/api/vcr/info")
-    var data = await res.json();
-    setInputValue(data.storageDir);
-    setInitValue(data.storageDir);
-    setLoadingDong(true);
-  };
+  const storageDirQuery = useQuery({
+    queryKey: ["storageDirKey"],
+    queryFn: async () => {
+      var res = await fetch("/api/vcr/full_data");
+      var data = await res.json();
+      return data;
+    },
+    onSuccess: (data) => {
+      console.log('success')
+      setInputValue(data.storageDir);
+      setDefaultInputValue(data.storageDir);
+    }
+  });
 
-  const storageDirButtonHandler = async (e:any) => {
+  const storageDirButtonHandler = async (e:any) => {//{{{
     e.preventDefault();
-    var response = await fetch("/api/vcr/save_storagedir", {
+
+    var response = await fetch<any>("/api/vcr/save_storagedir", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -29,16 +34,12 @@ export default function Page() {
       })
     });
     if(response.ok) {
-      console.log('ok');
+      message.success('修改成功');
+      storageDirQuery.refetch();
     } else {
-      console.log('fail');
+      message.error('请求失败');
     }
-  };
-
-  // 这里是页面渲染后执行，模拟 Domready
-  useEffect(() => {
-    initData()
-  }, [])
+  };//}}}
 
   return (
     <>
@@ -56,9 +57,10 @@ export default function Page() {
         <Space.Compact block>
           <Input style={{ width: 'calc(100% - 100px)' }} type="text"
                   value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)} />
+                  onChange={(e) => setInputValue(e.target.value)}
+                  />
           <Button type="default" onClick={() => {
-            setInputValue(initValue);
+            setInputValue(defaultInputValue);
           }}>恢复</Button>
           <Button type="primary" onClick={storageDirButtonHandler}>提交</Button>
         </Space.Compact>

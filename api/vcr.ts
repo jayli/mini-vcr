@@ -26,9 +26,9 @@ const setVCRData = async (vcrData:Object) => {
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 export default {
-  'GET /api/vcr/info': async (req:any, res:any) => {
+  'GET /api/vcr/full_data': async (req:any, res:any) => {
     let vcrData = await getVCRData();
-    // await delay(3000);
+    // await delay(2000);
     res.send(vcrData);
   },
 
