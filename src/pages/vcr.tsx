@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import {Button, DatePicker, Space, Divider, Input, message} from 'antd';
 import {useQuery} from "umi";
 
@@ -14,7 +14,7 @@ export default function Page() {
       var data = await res.json();
       return data;
     },
-    onSuccess: (data) => {
+    onSuccess: (data:any) => {
       resetStorageDir(data.storageDir);
     }
   });
@@ -60,7 +60,7 @@ export default function Page() {
         <Space.Compact block>
           <Input style={{ width: 'calc(100%)' }} type="text"
                   value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
+                  onChange={(e:any) => setInputValue(e.target.value)}
                   />
           <Button type="default" onClick={() => {
             setInputValue(defaultInputValue);

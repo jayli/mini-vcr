@@ -31,7 +31,8 @@ export default function App() {
   ];
 
   const getSubPageName = () => {
-    return window.location.pathname.split('/')[1] || 'home';
+    var pageName = window.location.pathname.split('/')[1] || 'home';
+    return pageName;
   };
 
   return (
