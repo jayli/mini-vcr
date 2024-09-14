@@ -14,11 +14,7 @@ export default function Page() {
 
   const storageDirQuery = useQuery({
     queryKey: ["storageDirKey"],
-    queryFn: async () => {
-      var res = await fetch("/api/vcr/full_data");
-      var data = await res.json();
-      return data;
-    },
+    queryFn: () => queryFullData(),
     onSuccess: (data:any) => {
       resetStorageDir(data.storageDir);
     }
@@ -29,9 +25,13 @@ export default function Page() {
     setDefaultInputValue(val);
   };
 
-  const storageDirButtonHandler = async (e:any) => {
-    e.preventDefault();
+  const queryFullData = async (): Promise<any> => {
+    var res = await fetch("/api/vcr/full_data");
+    var data = await res.json();
+    return data;
+  };
 
+  const postStorageDir = async (inputValue: string) => {
     var response = await fetch("/api/vcr/save_storagedir", {
       method: 'POST',
       headers: {
@@ -41,6 +41,12 @@ export default function Page() {
         storageDir: inputValue,
       })
     });
+    return response;
+  };
+
+  const storageDirButtonHandler = async (e:any) => {
+    e.preventDefault();
+    var response = await postStorageDir(inputValue);
     if(response.ok) {
       message.success('修改成功');
       storageDirQuery.refetch();
@@ -122,7 +128,7 @@ export default function Page() {
                                 flexBasis:180,
                                 marginRight:10
                               }} />
-                            <Link href="javascript:void(0)" style={{
+                            <Link href="#" style={{
                               marginRight:10,
                               flexShrink:0
                             }}>预览</Link>
@@ -137,7 +143,7 @@ export default function Page() {
                             <Text style={{
                               marginRight:10,
                             }}>录像状态：</Text>
-                            <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked style={{
+                            <Switch checkedChildren="开启" unCheckedChildren="停止" defaultChecked style={{
                               marginRight:20
                             }}/>
                             <Text>
