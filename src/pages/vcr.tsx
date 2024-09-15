@@ -90,6 +90,11 @@ export default function Page() {
           }}>恢复</Button>
           <Button type="primary" onClick={storageDirButtonHandler}>提交</Button>
         </Space.Compact>
+        <Space.Compact block>
+          <Input style={{ width: 'calc(100%)' }} type="text" />
+          <Button type="default">恢复</Button>
+          <Button type="primary">提交</Button>
+        </Space.Compact>
       </Space>
       <Divider orientation="left">Cam 列表</Divider>
       <Space direction="vertical" style={{display: 'flex'}}>
@@ -106,7 +111,7 @@ export default function Page() {
                       description={
                         <>
                           <div style={{
-                            width:'calc(100%)',
+                            flexBasis:'calc(100%)',
                             display:'flex',
                             alignItems: 'center',
                           }}>
@@ -116,7 +121,7 @@ export default function Page() {
                             }}>
                               视频地址：
                             </Text>
-                            <Input type="text" value="sdf" style={{
+                            <Input type="text" defaultValue="sdf" style={{
                               marginRight:10,
                             }} />
                             <Text style={{
@@ -135,7 +140,7 @@ export default function Page() {
                             <Button type="primary">保存</Button>
                           </div>
                           <div style={{
-                            width:'calc(100%)',
+                            flexBasis:'calc(100%)',
                             display:'flex',
                             alignItems: 'center',
                             marginTop:10
