@@ -2,11 +2,12 @@
   "private": true,
   "author": "拔赤 <bachi@taobao.com>",
   "scripts": {
-    "dev": "umi dev",
+    "dev": "umi dev & npm run rtsp_server",
     "build": "umi build",
     "postinstall": "umi setup",
     "setup": "umi setup",
-    "start": "npm run dev"
+    "start": "npm run dev",
+    "rtsp_server":"node rtsp_server/main.js"
   },
   "dependencies": {
     "@ant-design/icons": "^5.4.0",

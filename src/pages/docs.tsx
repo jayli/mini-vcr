@@ -1,40 +1,42 @@
 import useScript from 'react-script-hook';
+import {useState, useEffect} from 'react';
 
 const DocsPage = () => {
-  const [loading, error] = useScript({
+
+  const [player, setPlayer] = useState(undefined);
+  const [scriptLoading, error] = useScript({
     src: '/jsmpeg.min.js',
     onload: () => {
-      pageOnload();
+      initPlayerOnce();
     }
   });
 
-  const pageOnload= () => {
-    console.log('script ready, pageInit');
+  useEffect(() => {
+    initPlayerOnce();
+  },[]);
+
+  const initPlayerOnce = () => {
+    if(player !== undefined) return;
+    if(window?.JSMpeg === undefined) return;
+    var canvas = document.getElementById('canvas-1');
+    if(canvas === null) return;
+    console.log('initPlayerOnce');
     // 将rtsp视频流地址进行btoa处理一下
     var rtsp1 = 'http://47.51.131.147/-wvhttp-01-/GetOneShot?image_size=1280x720&frame_count=1000000000';
-    new JSMpeg.Player('ws://localhost:8001/rtsp?url=' + btoa(rtsp1), {
-      canvas: document.getElementById('canvas-1')
+    var canvas = document.getElementById('canvas-1');
+    var player = new JSMpeg.Player('ws://localhost:8001/rtsp?url=' + btoa(rtsp1), {
+      canvas: canvas
     });
-    // 将rtsp视频流地址进行btoa处理一下，还可以加一点参数
-    // new JSMpeg.Player(
-    //   'ws://localhost:9999/rtsp?url=' +
-    //     btoa(rtsp1) +
-    //     '&brightness=0.2&saturation=1.8',
-    //   {
-    //     canvas: document.getElementById('canvas-2')
-    //   }
-    // );
+    setPlayer(player);
   };
-
-  if (loading) {
-    return <p>loading...</p>;
-  }
 
   return (
     <>
       <div>
         <p>
-          <canvas id="canvas-1"></canvas>
+          <canvas id="canvas-1" style={{
+            width: '640px',
+          }}></canvas>
         </p>
       </div>
     </>
