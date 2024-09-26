@@ -137,7 +137,11 @@ export default function Page() {
                               marginRight:10,
                               flexShrink:0
                             }}>预览</Link>
-                            <Button type="primary">保存</Button>
+                            <Button type="primary" style={{
+                                marginRight: 10
+                              }}>保存</Button>
+
+                            <Button type="primary" danger>删除</Button>
                           </div>
                           <div style={{
                             flexBasis:'calc(100%)',
